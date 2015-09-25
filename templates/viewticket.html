@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Заявка номер №{{id}}</h1>
+<table class="table table-bordered">
+  <tr>
+    <td>Дата открытия: {{ticket.datetime_add}}</td>
+    <td>Дата закрытия: {{ticket.datetime_end}}</td>
+    <td colspan="2">Инженер: {{ticket.engineer}}</td>
+  </tr>
+  <tr>
+    <td>{{ticket.category_text}}</td>
+    <td>Здание: {{ticket.address}}</td>
+    <td>Аудитория: {{ticket.aud}}</td>
+    <td>Подразделение: {{ticket.otdel}}</td>
+  </tr>
+   <tr>
+    <td colspan="2">Пользователь: {{ticket.fio}}</td>
+    <td colspan="2">Телефон: {{ticket.phone}}</td>
+  </tr>
+  <tr>
+    <td colspan="2">Инв.номер: {{ticket.inv_number}}</td>
+    <td colspan="2">Имя компьютера: {{ticket.computer_name}}</td>
+  </tr>
+  <tr>
+    <td colspan="4">Текст заявки<br />{{ticket.text}}</td>
+  </tr>
+  <tr>
+    <td colspan="4">Файл: </td>
+  </tr>
+</table>
+
+{% if ticket.complete_text %}
+<h3>Выполненные работы:</h3>
+<table class="table table-bordered"><tr><td>{{ticket.complete_text}}</td></tr></table>
+{% endif %}
+
+{% if Auth.islogged==true %}
+
+<form action="/ticket/complete/{{ticket.id}}" method="post" id="ticketform" class="css-form">
+{% if ticket.status==1 %} <textarea class="form-control" placeholder="Выполненные работы" name="inputCompleteText"></textarea><br/>{% endif %}
+<a href="/ticket/edit/{{ticket.id}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Редактировать</a> 
+<a href="/ticket/work/{{ticket.id}}" type="button" class="btn btn-default" {% if ticket.status!=0 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> В работу</a>
+<button type="submit" class="btn btn-default" {% if ticket.status!=1 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Заявка выполнена</button>
+</form>
+{% endif %}
+<h3>Комментарии</h3>
+<form id="addcomment" action="/ticket/{{ticket.id}}/addcomment" method="post">
+<div class="row">
+        <div class="col-xs-9">
+<textarea class="form-control" placeholder="Текст комментария" name="inputComment" required></textarea>
+
+</div>  <div class="col-xs-3"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Добавить комментарий</button></div></div>
+</form>
+<script>
+$("#addcomment").validate();
+</script>
+<br/>
+<table class="table table-bordered">
+{% for comment in comments %}
+<tr><td width="250px"><strong>{{comment.user}}</strong><br>{{comment.comment_time}}</td><td> {{comment.text}}</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

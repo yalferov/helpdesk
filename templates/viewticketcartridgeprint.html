@@ -1,0 +1,55 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<title langs="ru">Заявка на картридж</title>
+<style>
+<!--
+.header{font-size:17px; font-family:Tahoma;padding-left:8px;}
+.sub_header{font-size:13px; font-family:Tahoma;padding-left:8px;}
+.date{font-style:italic; font-family:Tahoma;padding-left:8px;}
+.number{font-size:24px;font-family:Tahoma;font-style:italic;padding-left:8px;}
+.user{font-size:12px;font-family:Tahoma;font-weight:bold;padding-left:8px;}
+.summa{font-size:12px;font-family:Tahoma;font-weight:bold;padding-left:15px;}
+
+table.blank {
+	border-collapse: collapse;
+	width: 585px;
+}
+table.blank td {
+	border:0.5pt solid windowtext;
+}
+-->
+</style>
+</head>
+
+<body bgcolor=white lang=RU style='tab-interval:35.4pt' onload="window.print()">
+<p align="right">Ведущему специалисту<br>
+отдела ПТО УИТ и АСУ<br>
+В.С. Беззубковой
+<br>
+
+<p align="center">ЗАЯВКА НА КАРТРИДЖ</p>
+<p>Подразделение: {{ticket.otdel}}<br>
+  Ответственное лицо: {{ticket.fio}}<br>
+  Тел. {{ticket.phone}}        Ауд. {{ticket.aud}}</p>
+<p>Прошу <strong>заправить/заменить  картридж</strong> принтера </p>
+<table border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="427" valign="top"><p align="center">Модель</p></td>
+    <td width="300" valign="top"><p align="center">Инв. номер</p></td>
+  </tr>
+  <tr>
+    <td width="427" valign="top"> {{prop_printermodel}}</td>
+    <td width="300" valign="top"> {{ticket.inv_number}}</td>
+  </tr>
+</table>
+<p align="right">                                                         Число  {{ticket.datetime_add|date("Y/m/d")}}</p>
+<p align="right">Подпись ___________________<br>
+</p>
+
+</body>
+</html>

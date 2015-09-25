@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-6 col-sm-push-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Важные сообщения</div>
+      <div class="panel-body"> {% for message in messages %}
+        <p>{{message.datetime|date("d.m")}} {{message.text}}</p>
+        {% endfor %} </div>
+    </div>
+    
+   {% if Auth.islogged==true %}
+    
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Добавить сообщение
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Важное сообщение</h4>
+      </div>
+      <form action="/message/add" method="post">
+      <div class="modal-body">
+        <textarea class="form-control" placeholder="Напишите здесь сообщение" name="inputMessage"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <!-- end modal -->
+    {% endif %}
+  </div>
+  
+  <div class="col-sm-6 col-sm-pull-6 hidden-xs">
+    <div class="panel panel-default">
+      <div class="panel-heading">Полезные ресурсы</div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item"><a href="http://www.magtu.ru" target="_blank">Сайт МГТУ</a></li>
+          <li class="list-group-item"><a href="http://sps.vuz.magtu.ru" target="_blank">Корпоративный портал МГТУ</a></li>
+          <li class="list-group-item"><a href="http://newlms.magtu.ru/" target="_blank">Образовательный портал МГТУ</a></li>
+          <li class="list-group-item"><a href="http://mail.masu.ru">Почта Google</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+<div class="col-sm-12">
+<!-- Single button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Новая заявка <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="/ticket/add">Заявка на обслуживание</a></li>
+    <li><a href="/ticket/add/remont">Ремонт оборудования</a></li>
+    <li><a href="/ticket/add/cartridge">Заправка картриджа</a></li>
+  </ul>
+</div>
+
+<h2>Текущие заявки    {% if Auth.islogged==true %}<small><a href="/?myticket">Мои заявки</a></small>{% endif %}</h2>
+
+{% include 'tickettable.html' %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Список заявок</h1>
+<nav>
+  <ul class="pagination">
+   {% for nav in arnav %}
+        <li><a href="{{ nav.LINK }}">{{ nav.NAME }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% include 'tickettable.html' %}
+
+{% endblock %}

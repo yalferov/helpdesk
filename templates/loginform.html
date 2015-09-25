@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form class="form-signin" action="/login" method="post">
+        <h2 class="form-signin-heading">Авторизация</h2>
+        <label for="inputUserName" class="sr-only">Пользователь</label>
+        <input type="text" id="inputUserName" name="inputUserName" class="form-control" placeholder="Пользователь" required autofocus>
+        <label for="inputPassword" class="sr-only">Пароль</label>
+        <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Пароль" required>
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+      </form>
+      {% endblock %}

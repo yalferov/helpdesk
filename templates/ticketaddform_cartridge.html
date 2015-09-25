@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+      .css-form input.ng-invalid.ng-dirty {
+        background-color: #FA787E;
+        color:#FFFFFF;
+      }
+    
+    </style>
+<h1>Новая заявка на заправку картриджа</h1>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form action="/ticket/add" method="post" id="ticketaddform" class="css-form">
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="inputAddress">Здание</label>
+            <select name="inputAddress" required class="form-control" id="inputAddress" placeholder="Выберите категорию заявки">
+              <option></option>
+              <option>Ленина 114 (УК №2)</option>
+              <option>Ленина 114\1 (столовая УК №2)</option>
+              <option>Ленина 114\2 (ИСАиИ)</option>
+              <option>Ленина 114\3 (мастерские ИСАиИ)</option>
+              <option>Ленина 112\2 (ИСАиИ)</option>
+              <option>Ленина 95 (Спорткомплекс)</option>
+              <option disabled>-- Общежития --</option>
+              <option>К.Маркса 77 (общ.№1)</option>
+              <option>Ленина 94 (общ.№2)</option>
+              <option>Ленина 112 (общ.№3)</option>
+              <option>Ленина 112\1 (общ.№4)</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="form-group">
+            <label for="inputAud">Аудитория</label>
+            <input type="text" class="form-control" id="inputAud" name="inputAud" placeholder="Пример: 316" />
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputOtdel">Подразделение</label>
+            <input type="text" class="form-control" id="inputOtdel" name="inputOtdel" placeholder="Пример: Компьютерный центр" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputFIO">ФИО</label>
+            <input name="inputFIO" type="text" required class="form-control" id="inputFIO" placeholder="Пример: Иванов Иван Иванович" />
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputPhone">Телефон (<span class="text-danger">обязательно</span>)</label>
+            <input name="inputPhone" type="text" required class="form-control" id="inputPhone" placeholder="Пример: 79221234567"  />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputInvNumber">Инвентарный номер принтера</label>
+            <input name="inputInvNumber" type="text" required class="form-control" id="inputInvNumber" placeholder="Пример 4.1041234" />
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label>Модель принтера</label>
+            <select name="inputPrinterModel" class="form-control" id="inputPrinterModel" placeholder="Выберите модель принтера" required>
+              <option></option>
+              <option disabled>-- Canon --</option>
+              <option>Canon 6317</option>
+<option>Canon 6512</option>
+<option>Canon FC-128</option>
+<option>Canon iR2016j</option>
+<option>Canon i-sensys LBP 3010</option>
+<option>Canon i-sensys MF 3228</option>
+<option>Canon i-sensys MF 4010</option>
+<option>Canon i-sensys MF 4018</option>
+<option>Canon i-sensys MF 4120</option>
+<option>Canon i-sensys MF 4730</option>
+<option>Canon i-sensys MF 6680 dn</option>
+<option>Canon LaserBase MF 3110</option>
+<option>Canon LaserShot LBP 1120</option>
+<option>Canon LaserShot LBP 1210</option>
+<option>Canon LaserShot LBP 3000</option>
+<option>Canon LBP 2900</option>
+<option>Canon LBP 6000 B</option>
+<option>Canon LBP 810</option>
+<option>Canon LII 21 E</option>
+<option>Canon NP 7161</option>
+<option>Canon PC 860</option>
+<option>Canon PC D320</option>
+<option disabled>-- HP --</option>
+<option>HP DesignJet 510</option>
+<option>HP LaserJet 1000</option>
+<option>HP LaserJet 1010</option>
+<option>HP LaserJet 1018</option>
+<option>HP LaserJet 1020</option>
+<option>HP LaserJet 1100</option>
+<option>HP LaserJet 1160</option>
+<option>HP LaserJet 1200</option>
+<option>HP LaserJet 1220</option>
+<option>HP LaserJet 1300</option>
+<option>HP LaserJet 1320</option>
+<option>HP LaserJet 1536</option>
+<option>HP LaserJet 2200 D</option>
+<option>HP LaserJet 3052</option>
+<option>HP LaserJet 3055</option>
+<option>HP LaserJet 5000</option>
+<option>HP LaserJet 5100</option>
+<option>HP LaserJet M1005</option>
+<option>HP LaserJet M1010</option>
+<option>HP LaserJet M1120</option>
+<option>HP LaserJet M1132</option>
+<option>HP LaserJet M5025</option>
+<option>HP LaserJet P1005</option>
+<option>HP LaserJet P1102</option>
+<option>HP LaserJet P1566</option>
+<option>HP LaserJet P2015</option>
+<option disabled>-- Samsung --</option>
+<option>Samsung ML 1516</option>
+<option>Samsung ML 1610</option>
+<option>Samsung ML 1615</option>
+<option>Samsung ML 1710 P</option>
+<option>Samsung ML 1750</option>
+<option>Samsung SCX 3200</option>
+<option>Samsung SCX 4100</option>
+<option>Samsung SCX 4200</option>
+<option>Samsung SCX 4300</option>
+<option>Samsung SCX 4600</option>
+<option>Samsung SCX 4725 FN</option>
+<option disabled>-- Xerox --</option>
+<option>Xerox Phaser 4510 n</option>
+<option>Xerox WorkCentre 3210</option>
+<option>Xerox WorkCentre 4118</option>
+<option>Xerox WorkCentre 5016</option>
+<option>Xerox WorkCentre M15i</option>
+<option disabled>-- Другое --</option>
+<option>Принтера нет в списке</option>
+ </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputTicketText">Комментарий к заявке</label>
+        <textarea class="form-control" id="inputTicketText" name="inputTicketText" rows="3" placeholder=""></textarea>
+      </div>
+      {#
+      <div class="form-group">
+        <label for="inputFile">Прикрепить файл</label>
+        <input type="file" id="inputFile" name="inputFile" />
+        <p class="help-block">Вы можете прикрепить файл к сообщению</p>
+      </div>
+      #}
+      <input type="hidden" class="form-control" id="inputCategory" name="inputCategory" placeholder="" value="{{inputCategory}}" />
+      <input type="hidden" class="form-control" id="inputComputerName" name="inputComputerName" placeholder="" value="{{compname}}" />
+      <button type="submit" class="btn btn-default">Отправить заявку</button>
+    </form>
+  </div>
+</div>
+<script>
+$("#ticketaddform").validate();
+</script>
+{% endblock %}

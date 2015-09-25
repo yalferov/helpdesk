@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+      .css-form input.ng-invalid.ng-dirty {
+        background-color: #FA787E;
+        color:#FFFFFF;
+      }
+    
+    </style>
+<h1>Новая заявка</h1>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form action="/ticket/add" method="post" id="ticketaddform"  class="css-form">
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="inputAddress">Здание</label>
+            <select class="form-control" id="inputAddress" name="inputAddress" placeholder="Выберите категорию заявки" required>
+              <option></option>
+              <option>Ленина 114 (УК №2)</option>
+              <option>Ленина 114\1 (столовая УК №2)</option>
+              <option>Ленина 114\2 (ИСАиИ)</option>
+              <option>Ленина 114\3 (мастерские ИСАиИ)</option>
+              <option>Ленина 112\2 (ИСАиИ)</option>
+              <option>Ленина 95 (Спорткомплекс)</option>
+              <option disabled>-- Общежития --</option>
+              <option>К.Маркса 77 (общ.№1)</option>
+              <option>Ленина 94 (общ.№2)</option>
+              <option>Ленина 112 (общ.№3)</option>
+              <option>Ленина 112\1 (общ.№4)</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="form-group">
+            <label for="inputAud">Аудитория</label>
+            <input type="text" class="form-control" id="inputAud" name="inputAud" placeholder="Пример: 316" />
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputOtdel">Подразделение</label>
+            <input type="text" class="form-control" id="inputOtdel" name="inputOtdel" placeholder="Пример: Компьютерный центр" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputFIO">ФИО</label>
+            <input type="text" class="form-control" id="inputFIO" name="inputFIO" placeholder="Пример: Иванов Иван Иванович" required/>
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputPhone">Телефон (<span class="text-danger">обязательно</span>)</label>
+            <input type="text" class="form-control" id="inputPhone" name="inputPhone" placeholder="Пример: 79221234567" required />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label for="inputInvNumber">Инвентарный номер оборудования</label>
+            <input type="text" class="form-control" id="inputInvNumber" name="inputInvNumber" placeholder="Пример 4.1041234" />
+          </div>
+        </div>
+        <div class="col-xs-5">
+          <div class="form-group">
+            <label >Имя компьютера</label>
+            <p>{{compname}}</p>
+            <input type="hidden" class="form-control" id="inputComputerName" name="inputComputerName" placeholder="Пример 4.1041234" value="{{compname}}" />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputTicketText">Текст заявки</label>
+        <textarea class="form-control" id="inputTicketText" name="inputTicketText" rows="3" placeholder="Пример: Принтер заминает бумагу" required></textarea>
+      </div>
+      {#
+      <div class="form-group">
+        <label for="inputFile">Прикрепить файл</label>
+        <input type="file" id="inputFile" name="inputFile" />
+        <p class="help-block">Вы можете прикрепить файл к сообщению</p>
+      </div>
+      #}
+      <input type="hidden" class="form-control" id="inputCategory" name="inputCategory" placeholder="" value="{{inputCategory}}" />
+      <button type="submit" class="btn btn-default">Отправить заявку</button>
+    </form>
+  </div>
+</div>
+<script>
+$("#ticketaddform").validate();
+</script>
+{% endblock %}
