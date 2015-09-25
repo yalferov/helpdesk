@@ -5,22 +5,26 @@
  * @copyright 2015
  */
 
+/*
 $authCheck=function() use ($app){
 
     //$app->redirect('/login');
 };
+*/
 
 class Auth {
     var $userID;
     var $userRole;
     var $userName;
     var $userFIO;
+    var $userIDKey;
     public function __construct(){
         
         $this->userRole="guest";
         $this->userID=0;
         $this->userName="";
         $this->userFIO="";
+        $this->userIDKey=computer_name();
         
         if(isset($_SESSION['userid'])){
             $user = Model::factory('User')->find_one($_SESSION['userid']); 

@@ -5,15 +5,19 @@
  * @copyright 2015
  */
 
-function computer_name(){
-	   $host=gethostbyaddr($_SERVER['REMOTE_ADDR']);
-	  		// if(substr_count($host, ".")==3){
-	   	return strstr($host,'.',true);
-	  		// } else {
-	 		 // 		return $host;
-			 //  }
-	    
+/**
+ * Возвращает имя компьютера до первой точки, либо IP адрес
+ * @return string
+ */
+function computer_name()
+{
+    $host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+    if(filter_var($host,FILTER_VALIDATE_IP)==false) {
+        return strstr($host, '.', true)? strstr($host, '.', true) : $host;
 
+    } else {
+        return $host;
+    }
 }
 
 ?>

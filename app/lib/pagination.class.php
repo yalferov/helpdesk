@@ -83,7 +83,7 @@ class Pagination
     		$next_link = $this->total_pages;
     	}
 		$arLinksArray=array();
-		$arLinksArray[]=["NAME"=>'В начало', "LINK"=>"{$this->url}&{$this->page_var}=1", "TYPE"=>"BEGIN", "ACTIVE"=>"Y"];
+		//$arLinksArray[]=["NAME"=>'В начало', "LINK"=>"{$this->url}&{$this->page_var}=1", "TYPE"=>"BEGIN", "ACTIVE"=>"Y"];
 		$arLinksArray[]=array("NAME"=>'Пред', "LINK"=>"{$this->url}&{$this->page_var}={$prev_link}", "TYPE"=>"PREV", "ACTIVE"=>"Y");
 
     	for ($i = $this->start_page; ($i < ($this->start_page + $this->max_pages)) and ($i <= $this->total_pages); $i++) {

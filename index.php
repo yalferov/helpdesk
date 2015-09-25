@@ -27,7 +27,7 @@ require 'app/lib/idiorm.php';
 require 'app/lib/paris.php';
 
 require 'config.php';
-
+require 'app/function.php';
 
 // Models
 require 'app/models/Models.php';
@@ -46,7 +46,7 @@ $params=array(
 
 require 'app/event.php';
 require 'app/init.php';
-require 'app/function.php';
+
 require 'app/lib/telegram.php';
 require 'app/lib/pagination.class.php';
 /*
@@ -244,21 +244,8 @@ require 'app/lib/pagination.class.php';
     
      
     $app->post('/ticket/:id/addcomment', function ($id) use ($app) {
-     global $params;
-     
-     $comment=Comment::create();
-     $comment->ticket_id=$id;
-     $comment->text=$app->request->post('inputComment');
-     if($app->Auth->isLogged()){
-        $comment->user='Инженер';
-     } else {
-        $comment->user='Пользователь';
-     }
-     $comment->comment_time=date("Y-m-d H:i:s");
-     $comment->save();
-     $app->redirect("/ticket/{$id}");
-    }
-    );
+        include("app/controller/_ticket__addcomment.php.php");
+    });
     
     $app->post('/message/add', function () use ($app) {
      global $params;
