@@ -12,12 +12,27 @@ $authCheck=function() use ($app){
 };
 */
 
+/**
+ * Class Auth
+ *
+ * @todo Добавить авторизацию через LDAP. Успешно авторизованных добавлять в базу
+ * userIDKey - идентификатор заявки.
+ * Равен имени компьютера для неавторизованных пользователей
+ * Равен ldap_<имя пользователя> для авторизованных через LDAP
+ */
+
 class Auth {
+    /** @var null|string Идентификатор пользователя в локальной таблице   */
     var $userID;
     var $userRole;
+    var $userType;
     var $userName;
+
     var $userFIO;
+    /** @var string Идентификатор пользователя для заявок и комментариев  */
     var $userIDKey;
+
+
     public function __construct(){
         
         $this->userRole="guest";
@@ -31,16 +46,46 @@ class Auth {
             if ($user instanceof User) {
                 $this->userID=$user->id;
                 $this->userRole=$user->role;
+                $this->userType=$user->type;
                 $this->userName=$user->name;
                 $this->userFIO=$user->fio;
+                $this->userIDKey=$user->type."_".$user->name;
             }
             
         }
     }
+
+    /**
+     * Возвращает идентификатор пользователя в системе
+     * @return string
+     */
+    public function getUserIDKey()
+    {
+        return $this->userIDKey;
+    }
+
+    /**
+     * Возвращает результат проверки залогинен ли пользователь
+     * @return bool
+     */
     public function isLogged() {
         return isset($_SESSION['userid'])? true:false;
         
     }
+
+    /**
+     * Авторизация пользователя
+     * @param $username
+     * @param $password
+     * @return bool
+     *
+     * Алгоритм авторизации:
+     * Проверка пользователя локально
+     * Если тип пользователя локален - авторизовать
+     * Если тип пользователя ldap - проверка пользователя через ldap
+     * Если пользователь отсутствует локально - внесение пользователя ldap в локальную базу с типом ldap
+     */
+
     public function login($username, $password){
        $user = Model::factory('User')->where(array(
                 'name' => $username,
@@ -53,9 +98,13 @@ class Auth {
             return true;
         }
     }
+
     public function logout(){
         unset($_SESSION['userid']);
     }
+
+
+
 }
 
 ?>

@@ -106,8 +106,8 @@ require 'app/lib/pagination.class.php';
     $app->get('/ticket/add(/:type)', function ($type='default') use ($app)
     { 
         global $params;
-      	//  $params['compname']= strstr(gethostbyaddr($_SERVER['REMOTE_ADDR']),'.',true);
-      	$params['compname']=computer_name();
+
+        $params['compname']=$app->Auth->getUserIdKey();
 
       	switch ($type) {
       		case 'cartridge':
@@ -210,7 +210,9 @@ require 'app/lib/pagination.class.php';
             $ticket->complete_text=$app->request->post('inputCompleteText');
             $ticket->datetime_end=date("Y-m-d H:i:s");
             $ticket->save();
-            //onAfterTicketComplete
+            /*
+             * Вызов onAfterTicketComplete
+             */
            $eventArgs=array(
             'id'=>$ticket->id(), 
             'fio'=>$app->Auth->userFIO,
@@ -244,7 +246,7 @@ require 'app/lib/pagination.class.php';
     
      
     $app->post('/ticket/:id/addcomment', function ($id) use ($app) {
-        include("app/controller/_ticket__addcomment.php.php");
+        include("app/controller/_ticket__addcomment.php");
     });
     
     $app->post('/message/add', function () use ($app) {

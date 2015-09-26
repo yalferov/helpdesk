@@ -12,7 +12,7 @@ global $params, $ticketStatus, $ticketCategory;
         $extras=$ticket->extras()->find_many();
         
         
-        if($ticket->computer_name==computer_name() or $app->Auth->isLogged()){
+        if($ticket->computer_name==$app->Auth->getUserIdKey() or $app->Auth->isLogged()){
             $ticket->engineer=$user->fio;
             $ticket->status_text=$ticketStatus[$ticket->status];
             $ticket->category_text=$ticketCategory[$ticket->category];

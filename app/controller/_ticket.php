@@ -1,7 +1,7 @@
 <?php
        global $params, $ticketStatus, $ticketCategory;
        $itemsOnPage=20;// Количество элементов на странице
-        $computername=computer_name();  
+        $computername=$app->Auth->getUserIdKey();
 
         if($app->Auth->isLogged()){
 

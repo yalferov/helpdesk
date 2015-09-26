@@ -1,0 +1,1 @@
+ALTER TABLE  `user` ADD  `type` VARCHAR( 20 ) NOT NULL AFTER  `password` ;
