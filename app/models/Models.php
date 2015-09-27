@@ -38,7 +38,10 @@ class Message extends Model
 
 class Comment extends Model
 {
-
+    public function unread()
+    {
+        return $this->has_one('CommentUnread');
+    }
 }
 class CommentUnread extends Model
 {

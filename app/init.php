@@ -31,23 +31,29 @@ $ticketStatus=array(
 
 event::addHandler('onAfterTicketAdd', function($args) 
 {
-  $param["chat_id"] = CHAT_ID;
-  $param["text"] = 'Новая заявка №'.$args['id'].' в ауд. '.$args['aud']."(".$args['otdel'].")\n".$args['text'];
-  $updates = apiRequest("sendMessage", $param);
+  if($app_config['telegram_send']) {
+    $param["chat_id"] = CHAT_ID;
+    $param["text"] = 'Новая заявка №' . $args['id'] . ' в ауд. ' . $args['aud'] . "(" . $args['otdel'] . ")\n" . $args['text'];
+    $updates = apiRequest("sendMessage", $param);
+  }
 });
 
 event::addHandler('onAfterTicketWork', function($args) 
 {
-   $param["chat_id"] = CHAT_ID;
-  $param["text"] = "Заявка №{$args['id']}\nСтатус: Взята в работу\nИнженер: {$args['fio']}";
-  $updates = apiRequest("sendMessage", $param);
+  if($app_config['telegram_send']) {
+    $param["chat_id"] = CHAT_ID;
+    $param["text"] = "Заявка №{$args['id']}\nСтатус: Взята в работу\nИнженер: {$args['fio']}";
+    $updates = apiRequest("sendMessage", $param);
+  }
 });
 
 event::addHandler('onAfterTicketComplete', function($args) 
 {
-  $param["chat_id"] = CHAT_ID;
-  $param["text"] = "Заявка №{$args['id']}\nСтатус: Выполнено\nИнженер: {$args['fio']}";
-  $updates = apiRequest("sendMessage", $param);
+  if($app_config['telegram_send']) {
+    $param["chat_id"] = CHAT_ID;
+    $param["text"] = "Заявка №{$args['id']}\nСтатус: Выполнено\nИнженер: {$args['fio']}";
+    $updates = apiRequest("sendMessage", $param);
+  }
 });
 
 

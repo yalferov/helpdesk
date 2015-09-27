@@ -1,36 +1,55 @@
-   <?php
-   /**
-    * @todo Ñäåëàòü âûâîä çàÿâîê ïîäàííûõ ñ òåêóùåãî êîìïüþòåðà è çàÿâîê ïîäàííûõ ïîä ëîãèíîì òåêóùåãî ïîëüçîâàòåëÿ ldap
-    */
-   global $params, $ticketStatus, $ticketCategory;
-        $computername=$app->Auth->getUserIdKey();
-        if($app->Auth->isLogged()){
+<?php
+/**
+ * Ð’Ñ‹Ð²Ð¾Ð´ Ð³Ð»Ð°Ð²Ð½Ð¾Ð¹ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹
+ *
+ * @todo Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð²Ñ‹Ð²Ð¾Ð´ Ð·Ð°ÑÐ²Ð¾Ðº Ð¿Ð¾Ð´Ð°Ð½Ð½Ñ‹Ñ… Ñ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð° Ð¸ Ð·Ð°ÑÐ²Ð¾Ðº Ð¿Ð¾Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð¿Ð¾Ð´ Ð»Ð¾Ð³Ð¸Ð½Ð¾Ð¼ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ³Ð¾ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ñ ldap
+ */
+global $params, $ticketStatus, $ticketCategory;
+$computername = $app->Auth->getUserIdKey();
 
-            if(!is_null($app->request->get('myticket'))){ //Åñëè âûáðàí âûâîä "Ìîè çàÿâêè"
-                /* Âûâîäèì òîëüêî çàÿâêè âçÿòû èíæåíåðîì â ðàáîòó */
-                $tickets=Ticket::where('user_id',$app->Auth->userID)->where_lte('status', 2)->order_by_desc('datetime_add')->find_many();
-            } else {
-                /* Âûâîäèì âñå íå çàêðûòèå çàÿâêè  */
-                $tickets=Ticket::where_lte('status', 2)->order_by_desc('datetime_add')->find_many();    
-            }
-            
-        } else {
-            $tickets=Ticket::where('computer_name',$computername)->where_lte('status', 2)->order_by_desc('datetime_add')->find_many();    
-        }
-        
-        foreach($tickets as $ticket){
-            $ticket->status_text=$ticketStatus[$ticket->status]["text"];
-            $ticket->status_style=$ticketStatus[$ticket->status]["style"];
-            $ticket->category_text=$ticketCategory[$ticket->category];
-           if(strlen($ticket->text)>150){
-                $ticket->text=substr($ticket->text,0,150)."...";
-            }
-        }
-        $messages=Message::order_by_desc('datetime')->find_many();
-    
-        $params['tickets']=$tickets;
-        $params['messages']=$messages;
-        
-        $app->render('main.html',$params);
-    
-     ?>
+if ($app->Auth->isEngineer()) {
+
+    if (!is_null($app->request->get('myticket'))) { //Ð•ÑÐ»Ð¸ Ð²Ñ‹Ð±Ñ€Ð°Ð½ Ð²Ñ‹Ð²Ð¾Ð´ "ÐœÐ¾Ð¸ Ð·Ð°ÑÐ²ÐºÐ¸"
+        /* Ð’Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð·Ð°ÑÐ²ÐºÐ¸ Ð²Ð·ÑÑ‚Ñ‹ Ð¸Ð½Ð¶ÐµÐ½ÐµÑ€Ð¾Ð¼ Ð² Ñ€Ð°Ð±Ð¾Ñ‚Ñƒ */
+        $tickets = Ticket::where('user_id', $app->Auth->userID)->where_lte('status', 2)->order_by_desc('datetime_add')->find_many();
+    } else {
+        /* Ð’Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ Ð²ÑÐµ Ð½Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ Ð·Ð°ÑÐ²ÐºÐ¸  */
+        $tickets = Ticket::where_lte('status', 2)->order_by_desc('datetime_add')->find_many();
+    }
+
+} else {
+    $tickets = Ticket::where('computer_name', $computername)->where_lte('status', 2)->order_by_desc('datetime_add')->find_many();
+}
+
+foreach ($tickets as $ticket) {
+    $ticket->status_text = $ticketStatus[$ticket->status]["text"];
+    $ticket->status_style = $ticketStatus[$ticket->status]["style"];
+    $ticket->category_text = $ticketCategory[$ticket->category];
+    if (strlen($ticket->text) > 150) {
+        $ticket->text = substr($ticket->text, 0, 150) . "...";
+    }
+}
+$messages = Message::order_by_desc('datetime')->find_many();
+
+$comments=CommentUnread::where('user_idkey', $app->Auth->userIDKey)->find_many();
+$data=array();
+foreach ($comments as $comment) {
+    $data[]=$comment->ticket_id;
+}
+if($comments) {
+    $data=array_unique($data);
+
+    $listTickets = "";
+    foreach ($data as $key=>$value){
+        $listTickets.='<a href="/ticket/'.$value.'">'.$value.'</a> ';
+    }
+    $params['InfoNotify'] = "Ð£ Ð²Ð°Ñ ÐµÑÑ‚ÑŒ Ð½Ðµ Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ñ‹Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð² Ð·Ð°ÑÐ²ÐºÐ°Ñ… ".$listTickets;
+}
+
+
+$params['tickets'] = $tickets;
+$params['messages'] = $messages;
+
+$app->render('main.html', $params);
+
+?>

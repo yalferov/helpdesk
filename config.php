@@ -25,7 +25,8 @@ ORM::configure('password', '');
  * Настройки приложения
  */
 $app_config=array(
-"APP_HEADER"=>"УЧЕБНЫЙ КОМПЛЕКС №2"
+    "APP_HEADER"=>"УЧЕБНЫЙ КОМПЛЕКС №2",
+    "telegram_send"=>1
 );
 
 ?>

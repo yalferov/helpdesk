@@ -3,7 +3,7 @@
        $itemsOnPage=20;// Количество элементов на странице
         $computername=$app->Auth->getUserIdKey();
 
-        if($app->Auth->isLogged()){
+        if($app->Auth->isEngineer()){
 
             $total_rows=Ticket::order_by_desc('datetime_add')->count();
             $obPagination = new Pagination($total_rows,$itemsOnPage);

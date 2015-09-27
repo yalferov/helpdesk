@@ -48,13 +48,13 @@
 <button type="submit" class="btn btn-default" {% if ticket.status!=1 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Заявка выполнена</button>
 </form>
 {% endif %}
-<h3>Комментарии</h3>
+<h3>Сообщения</h3>
 <form action="/ticket/{{ticket.id}}/addcomment" id="addcomment" method="post">
 <div class="row">
         <div class="col-xs-9">
-<textarea class="form-control" placeholder="Текст комментария" name="inputComment" required></textarea>
+<textarea class="form-control" placeholder="Текст сообщения" name="inputComment" required></textarea>
 
-</div>  <div class="col-xs-3"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Добавить комментарий</button></div></div>
+</div>  <div class="col-xs-3"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Добавить сообщение</button></div></div>
 </form>
 <script>
 $("#addcomment").validate();

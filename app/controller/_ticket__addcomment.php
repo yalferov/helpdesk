@@ -1,16 +1,17 @@
 <?php
 /**
- * @todo Äîäåëàòü ïðîâåðêó íà äîñòóï ê çàÿâêå
+ * @todo Ð”Ð¾Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÑƒ Ð½Ð° Ð´Ð¾ÑÑ‚ÑƒÐ¿ Ðº Ð·Ð°ÑÐ²ÐºÐµ
  */
 global $params;
 
 $ticket=Ticket::find_one($id);
-/*
-if(!$ticket->computer_name!=$app->Auth->getUserIDKey() or !$app->Auth->isLogged()) {
-    $app->flash('info', 'Âû íå èìååòå äîñòóïà ê ýòîé çàÿâêå.');
+
+if($ticket->computer_name!=$app->Auth->getUserIDKey() && !$app->Auth->isEngineer()) {
+    $app->flash('info', 'Ð£ Ð²Ð°Ñ Ð½ÐµÑ‚ Ð¿Ñ€Ð°Ð² Ð¾ÑÑ‚Ð°Ð²Ð»ÑÑ‚ÑŒ ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¸ Ðº ÑÑ‚Ð¾Ð¹ Ð·Ð°ÑÐ²ÐºÐµ'.$ticket->computer_name.' '.$app->Auth->getUserIDKey());
     $app->redirect("/");
 }
-*/
+
+/* Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð´ Ð·Ð°ÑÐ²ÐºÐ¾Ð¹ */
 $comment = Comment::create();
 $comment->ticket_id = $id;
 $comment->text = $app->request->post('inputComment');
@@ -26,10 +27,24 @@ if ($app->Auth->isLogged()) {
 $comment->comment_time = date("Y-m-d H:i:s");
 $comment->save();
 
-if( in_array($app->Auth->role,array("engineer","admin")) ){
-    //Ñîîáùåíèå ïîëüçîâàòåëþ çàÿâêè
-} else {
-    //Ñîîáùåíèå èíæåíåðó(àì)
+/* Ð£Ð²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ðµ Ð¾ Ð½ÐµÐ¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ð½Ð½Ð¾Ð¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¸ */
+$notify=CommentUnread::create();
+$notify->ticket_id=$id;
+$notify->comment_id=$comment->id();
+$notify->notify_time=date("Y-m-d H:i:s");
+
+if( in_array($app->Auth->userRole,array("engineer","admin")) ){
+    $notify->user_idkey=$ticket->computer_name; //ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŽ
+    $notify->save();
 }
+
+if($app->Auth->userRole=="guest"){
+    $user=$ticket->user()->find_one();
+    if ($user instanceof User){
+        $notify->user_idkey=$user->type."__".$user->name; //Ð˜Ð½Ð¶ÐµÐ½ÐµÑ€Ñƒ Ð¿Ð¾ Ð·Ð°ÑÐ²ÐºÐµ
+        $notify->save();
+    }
+}
+
 $app->redirect("/ticket/{$id}");
 ?>
