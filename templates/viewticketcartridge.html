@@ -60,9 +60,5 @@
 $("#addcomment").validate();
 </script>
 <br/>
-<table class="table table-bordered">
-{% for comment in comments %}
-<tr><td width="250px"><strong>{{comment.user}}</strong><br>{{comment.comment_time}}</td><td> {{comment.text}}</td></tr>
-{% endfor %}
-</table>
+{% include 'comments.html' %}
 {% endblock %}

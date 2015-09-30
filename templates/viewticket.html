@@ -56,11 +56,5 @@
 $("#addcomment").validate();
 </script>
 <br/>
-<table class="table table-bordered">
-{% for comment in comments %}
-<tr {% if comment.unread=="1" %} class="info" {% endif %} >
-  <td width="250px"><strong>{{comment.user}}</strong><br>{{comment.comment_time}}</td><td> {{comment.text}}</td><td>{% if comment.unread=="1" %}<a href="/readcomment/{{comment.id}}" class="btn btn-default">Прочитать</a>{% endif %}</td>
-</tr>
-{% endfor %}
-</table>
+{% include 'comments.html' %}
 {% endblock %}
