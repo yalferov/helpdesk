@@ -250,5 +250,16 @@ $app->get('/engineerzone', function () use ($app) {
     $app->render('engineerzone.html', array('Auth' => $app->Auth));
 });
 
+// Отчеты
+$app->get('/report', function () use ($app) {
+    global $params;
+    $app->render('report.html', $params);
+});
+
+$app->get('/report/:id', function () use ($app) {
+    global $params;
+    $app->render('report.html', $params);
+});
+
 
 $app->run();
