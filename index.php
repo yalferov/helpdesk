@@ -29,7 +29,6 @@ require 'app/function.php';
 // Models
 require 'app/models/Models.php';
 
-
 require 'app/auth.php';
 $app->Auth = new Auth;
 
