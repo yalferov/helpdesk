@@ -10,51 +10,52 @@
 date_default_timezone_set("Asia/Tashkent");
 setlocale(LC_TIME, 'ru_RU.CP1251');
 
-$ticketCategory=array(
-0=>'',
-1=>'Заявка на обслуживание',
-2=>'Инцидент',
-3=>'Ремонт оборудования',
-4=>'Заправка картриджа'
-);
+$comments=CommentUnread::where('user_idkey', $app->Auth->userIDKey)->find_many();
+$data=array();
+foreach ($comments as $comment) {
+    $data[]=$comment->ticket_id;
+}
+if($comments) {
+    $data=array_unique($data);
 
-$ticketStatus=array(
-0=>array("text"=>"Открыто", "style"=>"warning"),
-1=>array("text"=>"В работе", "style"=>""),
-2=>array("text"=>"Выполнено", "style"=>"success"),
-3=>array("text"=>"Закрыто", "style"=>"success"),
-4=>array("text"=>"Отменено", "style"=>"active")
-);
-
- 
+    $listTickets = "";
+    foreach ($data as $key=>$value){
+        $listTickets.='<a href="/ticket/'.$value.'">'.$value.'</a> ';
+    }
+    $params['InfoNotify'] = "У вас есть не прочитанные сообщения в заявках ".$listTickets;
+}
 
 
 event::addHandler('onAfterTicketAdd', function($args) 
 {
-  if($app_config['telegram_send']) {
+
+ // if($app_config["TELEGRAM_SEND"]=="YES") {
     $param["chat_id"] = CHAT_ID;
     $param["text"] = 'Новая заявка №' . $args['id'] . ' в ауд. ' . $args['aud'] . "(" . $args['otdel'] . ")\n" . $args['text'];
     $updates = apiRequest("sendMessage", $param);
-  }
+ // }
 });
 
 event::addHandler('onAfterTicketWork', function($args) 
 {
-  if($app_config['telegram_send']) {
+//  if($app_config['telegram_send']==1) {
     $param["chat_id"] = CHAT_ID;
     $param["text"] = "Заявка №{$args['id']}\nСтатус: Взята в работу\nИнженер: {$args['fio']}";
     $updates = apiRequest("sendMessage", $param);
-  }
+//  }
 });
 
 event::addHandler('onAfterTicketComplete', function($args) 
 {
-  if($app_config['telegram_send']) {
+ // if($app_config['telegram_send']==1) {
     $param["chat_id"] = CHAT_ID;
     $param["text"] = "Заявка №{$args['id']}\nСтатус: Выполнено\nИнженер: {$args['fio']}";
     $updates = apiRequest("sendMessage", $param);
-  }
+ // }
 });
 
+event::addHandler('onAfterTicketCommentAdd', function($args)
+{
+});
 
 ?>

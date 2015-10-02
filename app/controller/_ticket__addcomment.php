@@ -7,7 +7,7 @@ global $params;
 $ticket=Ticket::find_one($id);
 
 if($ticket->computer_name!=$app->Auth->getUserIDKey() && !$app->Auth->isEngineer()) {
-    $app->flash('info', 'У вас нет прав оставлять комментарии к этой заявке'.$ticket->computer_name.' '.$app->Auth->getUserIDKey());
+    $app->flash('error', 'У вас нет прав оставлять комментарии к этой заявке'.$ticket->computer_name.' '.$app->Auth->getUserIDKey());
     $app->redirect("/");
 }
 
@@ -21,11 +21,15 @@ if ($app->Auth->isLogged()) {
 
 } else {
     $comment->user = $ticket->fio;
-
 }
 
 $comment->comment_time = date("Y-m-d H:i:s");
-$comment->save();
+if(!$comment->save()){}
+    $app->flash('error', 'Не удалось оставить комментарий к этой заявке'.$ticket->computer_name.' '.$app->Auth->getUserIDKey());
+    $app->redirect("/");
+}
+//onBeforeTicketAdd
+event::run('onAfterTicketCommentAdd', $comment);
 
 /* Уведомление о непрочитанном сообщении */
 $notify=CommentUnread::create();
@@ -33,15 +37,16 @@ $notify->ticket_id=$id;
 $notify->comment_id=$comment->id();
 $notify->notify_time=date("Y-m-d H:i:s");
 
-if( in_array($app->Auth->userRole,array("engineer","admin")) ){
-    $notify->user_idkey=$ticket->computer_name; //Пользователю
+// Сообщение от инженера
+if( in_array($app->Auth->userRole,array("engineer","admin")) && $ticket->computer_name!=$app->Auth->getUserIDKey() ){
+    $notify->user_idkey=$ticket->computer_name;
     $notify->save();
 }
-
+// Сообщение от пользователя
 if($app->Auth->userRole=="guest"){
     $user=$ticket->user()->find_one();
     if ($user instanceof User){
-        $notify->user_idkey=$user->type."__".$user->name; //Инженеру по заявке
+        $notify->user_idkey=$user->type."__".$user->name;
         $notify->save();
     }
 }

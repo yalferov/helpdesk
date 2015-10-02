@@ -56,22 +56,29 @@
 
 </div>
 <div class="row">
-<div class="col-sm-12">
-<!-- Single button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Новая заявка <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="/ticket/add">Заявка на обслуживание</a></li>
-    <li><a href="/ticket/add/remont">Ремонт оборудования</a></li>
-    <li><a href="/ticket/add/cartridge">Заправка картриджа</a></li>
-  </ul>
+  <div class="col-sm-12">
+      <h2>Текущие заявки
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Новая заявка <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="/ticket/add">Заявка на обслуживание</a></li>
+            <li><a href="/ticket/add/remont">Ремонт оборудования</a></li>
+            <li><a href="/ticket/add/cartridge">Заправка картриджа</a></li>
+          </ul>
+        </div> </h2>
+      {% if Auth.islogged==true %}
+        <a href="/" type="button" class="btn btn-default btn-sm">Все заявки</a>
+        <a href="/?newticket" type="button" class="btn btn-default btn-sm">Новые</a>
+        <a href="/?myticket" type="button" class="btn btn-default btn-sm">Мои заявки</a>
+      {% endif %}
+  </div>
 </div>
-
-<h2>Текущие заявки    {% if Auth.islogged==true %}<small><a href="/?myticket">Мои заявки</a></small>{% endif %}</h2>
-
-{% include 'tickettable.html' %}
-</div>
+<br>
+<div class="row">
+  <div class="col-sm-12">
+  {% include 'tickettable.html' %}
+  </div>
 </div>
 {% endblock %}

@@ -2,9 +2,8 @@
   <tr><th>№</th><th>Заявка</th><th>Создано</th><th>Аудитория</th><th class="hidden-xs">Пользователь</th><th>Действия</th></tr>
  {% for ticket in tickets %}
   <tr class="{{ticket.status_style}}"><td><a href="/ticket/{{ticket.id}}">{{ticket.id}}</a></td><td><span class="label label-info text-uppercase">{{ticket.status_text}}</span> <span class="label label-info text-uppercase"> {{ticket.category_text}}:</span> <a href="/ticket/{{ticket.id}}">{{ticket.text}}</a></td><td>{{ticket.datetime_add|date("d M")}}<br/>{{ticket.datetime_add|date("H:i")}}</td><td>{{ticket.aud}}<br />{{ticket.computer_name}}</td><td class="hidden-xs">{{ticket.fio}}</td><td>
-  <a href="/ticket/close/{{ticket.id}}" type="button" class="btn btn-default" onClick="return confirm('Вы действительно хотите закрыть заявку?');" {% if ticket.status!=2 %} disabled="disabled" {% endif %} ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Закрыть заявку</a>
-  
-  <a href="/ticket/cancel/{{ticket.id}}" type="button" class="btn btn-default" onClick="return confirm('Вы действительно хотите отменить заявку?');" {% if ticket.status!=0 %} disabled {% endif %} ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Отменить заявку</a> 
+    <a href="/ticket/close/{{ticket.id}}" type="button" class="btn btn-default" onClick="return confirm('Вы действительно хотите закрыть заявку?');" {% if ticket.status!=2 %} disabled="disabled" {% endif %} ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Закрыть</a>
+      <a href="/ticket/cancel/{{ticket.id}}" type="button" class="btn btn-default" onClick="return confirm('Вы действительно хотите отменить заявку?');" {% if ticket.status!=0 %} disabled {% endif %} ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Отменить</a>
   
   </td></tr>
   {% endfor %}

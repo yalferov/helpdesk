@@ -35,26 +35,27 @@ define('TICKET_CLOSE', 3);
 define('TICKET_CANCEL', 4);
 
 
+
 /*
  * Настройки Telegram
  */
 define('BOT_TOKEN', '116577505:AAHUONRv6TOyL6zBJqQtOvPCnd5YAlQcBdk');
 define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
-define('CHAT_ID', '129874991');
+define('CHAT_ID', '-28513449');
 
 /*
  * Настройки подключения к базе данных
  */
 ORM::configure('mysql:host=localhost;dbname=helpdesk;charset=utf8');
 ORM::configure('username', 'root');
-ORM::configure('password', '');
+ORM::configure('password', 'Fifkjr315');
 
 /*
  * Настройки приложения
  */
 $app_config=array(
     "APP_HEADER"=>"УЧЕБНЫЙ КОМПЛЕКС №2",
-    "TELEGRAM_SEND"=>"YES"
+    "telegram_send"=>1
 );
 
 ?>
