@@ -5,12 +5,20 @@
 
         if($app->Auth->isEngineer()){
 
-            $total_rows=Ticket::order_by_desc('datetime_add')->count();
+            $total_rows=Ticket::
+                where_any_is(array(
+                    array('status'=>TICKET_CLOSE),
+                    array('status'=>TICKET_CANCEL)
+                ))->order_by_desc('datetime_add')->count();
             $obPagination = new Pagination($total_rows,$itemsOnPage);
             $offset=$obPagination->getOffset(); // Получаем сдвиг
             $limit=$obPagination->getLimit(); // Получаем лимит
             $arNav=$obPagination->getLinksArray(); //Получаем массив ссылок
-            $tickets=Ticket::order_by_desc('datetime_add')->limit($limit)->offset($offset)->find_many();
+            $tickets=Ticket::
+                where_any_is(array(
+                    array('status'=>TICKET_CLOSE),
+                    array('status'=>TICKET_CANCEL)
+                ))->order_by_desc('datetime_add')->limit($limit)->offset($offset)->find_many();
         } else {
             $tickets=Ticket::where('computer_name',$computername)->order_by_desc('datetime_add')->limit(10)->find_many();    
         }

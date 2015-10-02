@@ -186,8 +186,8 @@ $app->get('/ticket/work/(:id)', function ($id) use ($app) {
 $app->post('/ticket/complete/:id', function ($id) use ($app) {
     global $params;
     $ticket = Ticket::find_one($id);
-    if ($ticket->status == 1) {
-        $ticket->status = 2; // Завершить можно только из статуса в работе
+    if ($ticket->status == 1) { // Завершить можно только из статуса в работе
+        $ticket->status = 2;
         $ticket->complete_text = $app->request->post('inputCompleteText');
         $ticket->datetime_end = date("Y-m-d H:i:s");
         $ticket->save();
