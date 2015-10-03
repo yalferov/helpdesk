@@ -24,7 +24,7 @@ if ($app->Auth->isLogged()) {
 }
 
 $comment->comment_time = date("Y-m-d H:i:s");
-if(!$comment->save()){}
+if(!$comment->save()){
     $app->flash('error', 'Не удалось оставить комментарий к этой заявке'.$ticket->computer_name.' '.$app->Auth->getUserIDKey());
     $app->redirect("/");
 }
