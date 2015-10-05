@@ -200,7 +200,7 @@ $app->post('/ticket/complete/:id', function ($id) use ($app) {
             'otdel' => $ticket->otdel);
         event::run('onAfterTicketComplete', $eventArgs);
     }
-    $app->redirect('/');
+    $app->redirect('/ticket/'.$id);
 }
 );
 // Закрыть заявку

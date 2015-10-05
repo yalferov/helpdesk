@@ -39,15 +39,18 @@
 <table class="table table-bordered"><tr><td>{{ticket.complete_text}}</td></tr></table>
 {% endif %}
 
-{% if Auth.islogged==true %}
-
 <form action="/ticket/complete/{{ticket.id}}" method="post" id="ticketform" class="css-form">
-{% if ticket.status==1 %} <textarea class="form-control" placeholder="Выполненные работы" name="inputCompleteText"></textarea><br/>{% endif %}
-<a href="/ticket/edit/{{ticket.id}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Редактировать</a> 
-<a href="/ticket/work/{{ticket.id}}" type="button" class="btn btn-default" {% if ticket.status!=0 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> В работу</a>
-<button type="submit" class="btn btn-default" {% if ticket.status!=1 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Заявка выполнена</button>
+
+  {% if Auth.islogged==true %}
+  {% if ticket.status==1 %} <textarea class="form-control" placeholder="Выполненные работы" name="inputCompleteText"></textarea><br/>{% endif %}
+  <a href="/ticket/edit/{{ticket.id}}" type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Редактировать</a>
+  <a href="/ticket/work/{{ticket.id}}" type="button" class="btn btn-default" {% if ticket.status!=0 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> В работу</a>
+  <button type="submit" class="btn btn-default" {% if ticket.status!=1 %} disabled {% endif %}><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span> Заявка выполнена</button>
+  {% endif %}
+  <a href="/ticket/close/{{ticket.id}}" type="button" class="btn btn-default" onClick="return confirm('Вы действительно хотите закрыть заявку?');" {% if ticket.status!=2 %} disabled="disabled" {% endif %} ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Закрыть заявку</a>
+  <a href="/ticket/cancel/{{ticket.id}}" type="button" class="btn btn-default" onClick="return confirm('Вы действительно хотите отменить заявку?');" {% if ticket.status!=0 %} disabled {% endif %} ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Отменить заявку</a>
 </form>
-{% endif %}
+
 <h3>Сообщения</h3>
 <form action="/ticket/{{ticket.id}}/addcomment" id="addcomment" method="post">
 <div class="row">
