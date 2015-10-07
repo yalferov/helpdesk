@@ -10,6 +10,7 @@
 date_default_timezone_set("Asia/Tashkent");
 setlocale(LC_TIME, 'ru_RU.CP1251');
 
+//Вывод непрочитанных сообщений
 $comments=CommentUnread::where('user_idkey', $app->Auth->userIDKey)->find_many();
 $data=array();
 foreach ($comments as $comment) {
@@ -18,13 +19,14 @@ foreach ($comments as $comment) {
 if($comments) {
     $data=array_unique($data);
 
-    $listTickets = "";
+    $arUnreadTickets = array();
     foreach ($data as $key=>$value){
-        $listTickets.='<a href="/ticket/'.$value.'">'.$value.'</a> ';
+        $arUnreadTickets[]='<a href="/ticket/'.$value.'">заявка №'.$value.'</a> ';
     }
-    $params['InfoNotify'] = "У вас есть не прочитанные сообщения в заявках ".$listTickets;
+    $strUnreadTickets=implode(', ',$arUnreadTickets);
+    $params['InfoNotify'] = "У вас есть не прочитанные сообщения: ".$strUnreadTickets;
 }
-
+// Конец вывода непрочитанных сообщений
 
 event::addHandler('onAfterTicketAdd', function($args) 
 {
